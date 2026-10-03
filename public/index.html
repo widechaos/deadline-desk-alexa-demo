@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deadline Desk · Make the return window count</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to workspace</a>
+    <div class="shell">
+      <aside>
+        <a class="brand" href="/">
+          <span class="brandmark">d.</span> deadline desk</a
+        >
+        <p class="caption">A LITTLE LESS LIFE ADMIN</p>
+        <nav aria-label="Workspace">
+          <button class="nav active" id="workspace">
+            Return workspace <span id="count">3</span></button
+          ><button class="nav" id="add">+ Add a purchase</button>
+        </nav>
+        <div class="aside-bottom">
+          <span class="dot"></span> Saved on this device
+          <p>
+            Your receipts stay in this browser.<br />Text requests use a local
+            model.
+          </p>
+        </div>
+      </aside>
+      <main id="main">
+        <header>
+          <span>PERSONAL WORKSPACE</span
+          ><span class="pill">Alexa+ web simulation</span>
+        </header>
+        <section class="intro">
+          <div>
+            <p class="eyebrow">KEEP THE RECEIPT. LOSE THE WORRY.</p>
+            <h1>Your next step,<br />already in reach.</h1>
+            <p>Turn a return deadline into a plan you can finish.</p>
+          </div>
+          <div class="today">
+            <span id="today"></span><strong id="dueCount">—</strong
+            ><span>open return windows</span>
+          </div>
+        </section>
+        <section class="board" aria-label="Return cases">
+          <div class="cases">
+            <div class="section-head">
+              <h2>Your purchases</h2>
+              <span>Synthetic demo receipts</span>
+            </div>
+            <div id="caseList"></div>
+            <p class="small">
+              Deadlines use reviewed delivery dates and policy windows.
+              Exceptions and refunds need merchant confirmation.
+            </p>
+          </div>
+          <article class="detail" id="detail"></article>
+        </section>
+        <section class="assistant">
+          <div class="agent-top">
+            <div>
+              <svg
+                class="agent-icon"
+                aria-hidden="true"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M12 3v18M3 12h18M6 6l12 12M6 18L18 6" />
+              </svg>
+              <h2>One request. A clear next step.</h2>
+            </div>
+            <span class="model" id="modelState">Checking local AI…</span>
+          </div>
+          <div id="conversation" role="log" aria-live="polite">
+            <p class="welcome">
+              Try “What should I return first?” or select a purchase and ask
+              “Why is this the deadline?”
+            </p>
+          </div>
+          <div class="suggestions">
+            <button data-prompt="What should I return first?">
+              What’s due first?</button
+            ><button data-prompt="Help me prepare a return checklist">
+              Prepare a return</button
+            ><button data-prompt="Draft a message to the merchant">
+              Draft a message
+            </button>
+          </div>
+          <form id="askForm">
+            <label class="sr" for="request">Ask your return assistant</label
+            ><button
+              id="voice"
+              type="button"
+              aria-label="Start voice input"
+              title="Start voice input"
+            >
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <rect x="9" y="2" width="6" height="12" rx="3" />
+                <path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8" />
+              </svg></button
+            ><input
+              id="request"
+              placeholder="Ask about your return, or speak…"
+              maxlength="2000"
+              required
+              autocomplete="off"
+            /><button class="primary" id="send">
+              Ask assistant <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+          <button id="demoVoice" type="button">
+            Try a synthetic voice recording
+          </button>
+          <p id="voiceStatus" class="small" role="status">
+            Microphone audio is transcribed locally with Whisper. Review the
+            transcript before sending.
+          </p>
+        </section>
+        <footer>
+          Deadline Desk · Evidence before action.
+          <span
+            >Independent prototype; no live Alexa or merchant connection.</span
+          >
+        </footer>
+      </main>
+    </div>
+    <dialog id="purchaseDialog">
+      <form id="purchaseForm">
+        <h2>Add a reviewed purchase</h2>
+        <p>
+          Paste receipt and policy text, ask the local AI to suggest fields,
+          then review before saving. Images and PDFs are not supported yet.
+        </p>
+        <div class="fields">
+          <label
+            >Merchant<input name="merchant" required maxlength="100" /></label
+          ><label>Item<input name="item" required maxlength="150" /></label
+          ><label
+            >Delivered on<input name="delivered" type="date" required /></label
+          ><label
+            >Return window (days)<input
+              name="days"
+              type="number"
+              min="1"
+              max="365"
+              required /></label
+          ><label
+            >Amount<input
+              name="amount"
+              type="number"
+              min="0.01"
+              step="0.01"
+              required /></label
+          ><label
+            >Currency<input
+              name="currency"
+              value="USD"
+              pattern="[A-Z]{3}"
+              maxlength="3"
+              required
+          /></label>
+        </div>
+        <label
+          >Receipt text<textarea
+            name="receipt"
+            required
+            maxlength="8000"
+            rows="3"
+          ></textarea></label
+        ><label
+          >Policy text (include exclusions)<textarea
+            name="policy"
+            required
+            maxlength="8000"
+            rows="3"
+          ></textarea></label
+        ><button id="extractFields" type="button">
+          Suggest fields from text
+        </button>
+        <p id="extractionEvidence" class="small" role="status"></p>
+        <p id="formError" role="alert"></p>
+        <div class="dialog-actions">
+          <button type="button" id="cancelPurchase">Cancel</button
+          ><button class="primary">Save reviewed purchase</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="confirmDialog">
+      <h2>Record this return?</h2>
+      <p id="confirmText"></p>
+      <div class="dialog-actions">
+        <button id="cancelConfirm">Keep open</button
+        ><button class="primary" id="confirmReturn">Mark as returned</button>
+      </div>
+    </dialog>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
