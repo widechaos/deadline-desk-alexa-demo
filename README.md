@@ -49,4 +49,4 @@ Image/PDF extraction, general policy exception interpretation, native Alexa inte
 5. Record the completed return, reload to see persisted state, then reopen the case.
 6. Paste an ambiguous receipt/policy: missing delivery and conflicting windows stay blank for review.
 
-The prototype was created during the competition window. It is not submitted, judged or awarded. The MIT license covers this project's source code.
+The prototype was created during the competition window. It was submitted to the Amazon Build, Ship, Shape Developer Hackathon on October 3, 2026. No judging result or award is claimed. [Project page](https://devpost.com/software/deadline-desk) · [Demo video](https://youtu.be/Vd7UZ1kGYfw). The MIT license covers this project's source code.
